@@ -17,10 +17,12 @@ import {
 	TextDocumentPositionParams
 } from 'vscode-languageserver'
 
+import StepsHandler from './stepsHandler'
+
 // Create a connection for the server. The connection uses Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
 let connection = createConnection(ProposedFeatures.all)
-
+const stepsHandler = new StepsHandler()
 // Create a simple text document manager. The text document manager
 // supports full document sync only
 let documents: TextDocuments = new TextDocuments()
@@ -48,6 +50,7 @@ connection.onInitialize((params: InitializeParams) => {
 
 	return {
 		capabilities: {
+			// Tell the client that the server works in FULL text document sync mode
 			textDocumentSync: documents.syncKind,
 			// Tell the client that the server supports code completion
 			completionProvider: {
@@ -180,10 +183,13 @@ connection.onDidChangeWatchedFiles(_change => {
 
 // This handler provides the initial list of the completion items.
 connection.onCompletion(
-	(_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-		// The pass parameter contains the position of the text document in
-		// which code complete got requested. For the example we ignore this
-		// info and always provide the same completion items.
+	(positionParams: TextDocumentPositionParams): CompletionItem[] => {
+		const document = documents.get(positionParams.textDocument.uri);
+		const text = document.getText().split(/\r?\n/g)
+		const line = text[positionParams.position.line]
+
+		stepsHandler.getCompletion(line, positionParams.position)
+		// let test = 1 + 1
 		return [
 			{
 				label: 'TypeScript',
