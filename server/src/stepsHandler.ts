@@ -128,9 +128,6 @@ export default class StepsHandler {
           label: label,
           kind: CompletionItemKind.Method,
           data,
-          sortText: label,
-          filterText: label,
-          insertText: step.text,
           documentation: step.text,
         }
       })

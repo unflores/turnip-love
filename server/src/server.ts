@@ -188,20 +188,7 @@ connection.onCompletion(
 		const text = document.getText().split(/\r?\n/g)
 		const line = text[positionParams.position.line]
 
-		stepsHandler.getCompletion(line, positionParams.position)
-		// let test = 1 + 1
-		return [
-			{
-				label: 'TypeScript',
-				kind: CompletionItemKind.Text,
-				data: 1
-			},
-			{
-				label: 'Derpscript',
-				kind: CompletionItemKind.Text,
-				data: 2
-			}
-		]
+		return stepsHandler.getCompletion(line, positionParams.position)
 	}
 )
 
@@ -209,13 +196,14 @@ connection.onCompletion(
 // the completion list.
 connection.onCompletionResolve(
 	(item: CompletionItem): CompletionItem => {
-		if (item.data === 1) {
-			item.detail = 'TypeScript details'
-			item.documentation = 'TypeScript documentation'
-		} else if (item.data === 2) {
-			item.detail = 'JavaScript details'
-			item.documentation = 'JavaScript documentation'
-		}
+		// Not sure what this is all about
+		// if (item.data === 1) {
+		// 	item.detail = 'MypeScript details'
+		// 	item.documentation = 'MypeScript documentation'
+		// } else if (item.data === 2) {
+		// 	item.detail = 'JavaScript details'
+		// 	item.documentation = 'JavaScript documentation'
+		// }
 		return item
 	}
 )
