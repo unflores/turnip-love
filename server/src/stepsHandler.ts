@@ -128,20 +128,18 @@ export default class StepsHandler {
 
     const filterText = searchWords[searchWords.length - 1]
 
-    // let response = this.elements
-    let response = [{ count: 5, text: "a 'v1_tier_1 customer' with email 'mister.robot@adlerson.com' exists" }]
-      .filter((element) => {
-        let cnt = 0
-        // filter out any steps that are not an exact match up to the search words length
-        searchWords.forEach((chunk) =>
-          element.text.search(chunk) !== -1 && cnt++
-        )
-        return cnt == searchWords.length
-      })
+    let response = this.steps.filter((element) => {
+      let cnt = 0
+      // filter out any steps that are not an exact match up to the search words length
+      searchWords.forEach((chunk) =>
+        element.content.search(chunk) !== -1 && cnt++
+      )
+      return cnt == searchWords.length
+    })
       .map((step) => {
         // format search results.
         // TODO: run through the rest of this method starting herecd
-        let label = step.text
+        let label = step.content
 
         const data = {
           line: position.line,
@@ -153,7 +151,7 @@ export default class StepsHandler {
           label: label,
           kind: CompletionItemKind.Method,
           data,
-          documentation: step.text,
+          documentation: step.content,
         }
       })
 

@@ -1,15 +1,15 @@
 import * as md5 from 'md5'
 
 export default class Step {
-  step: string
+  content: string
   line: number
 
-  constructor(step: string, line: number) {
-    this.step = step
+  constructor(content: string, line: number) {
+    this.content = content
     this.line = line
   }
 
   get id(): string {
-    return md5(this.step)
+    return md5(this.content)
   }
 }

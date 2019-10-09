@@ -5,13 +5,13 @@ describe('#parseSteps', () => {
 	it('returns a step for single quote lines', () => {
 		let steps = "step 'do things' do"
 
-		expect(subject.parseSteps(steps)[0].step).to.equal("do things")
+		expect(subject.parseSteps(steps)[0].content).to.equal("do things")
 	})
 
 	it('returns a step for double quote lines', () => {
 		let steps = "step \"do things\" do"
 
-		expect(subject.parseSteps(steps)[0].step).to.equal("do things")
+		expect(subject.parseSteps(steps)[0].content).to.equal("do things")
 	})
 
 	it('does NOT create a step for comments', () => {
