@@ -12,6 +12,9 @@
 		"url": "https://github.com/Microsoft/vscode-extension-samples"
 	},
 	"dependencies": {
+		"bluebird": "^3.7.0",
+		"globby": "^10.0.1",
+		"md5": "^2.2.1",
 		"vscode-languageserver": "^4.1.3"
 	},
 	"scripts": {}

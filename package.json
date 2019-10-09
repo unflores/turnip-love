@@ -39,7 +39,7 @@
 						"messages",
 						"verbose"
 					],
-					"default": "off",
+					"default": "verbose",
 					"description": "Traces the communication between VS Code and the language server."
 				}
 			}
@@ -50,11 +50,14 @@
 		"compile": "tsc -b",
 		"watch": "tsc -b -w",
 		"postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-		"test": "sh ./scripts/e2e.sh"
+		"test": "sh ./scripts/e2e.sh",
+		"test:dev": "mocha -r ts-node/register server/**/*.spec.ts"
 	},
 	"devDependencies": {
-		"@types/mocha": "^5.2.0",
+		"@types/chai": "^4.2.3",
+		"@types/mocha": "^5.2.7",
 		"@types/node": "^8.0.0",
+		"chai": "^4.2.0",
 		"tslint": "^5.11.0",
 		"typescript": "^3.1.3"
 	}

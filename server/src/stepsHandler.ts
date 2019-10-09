@@ -2,6 +2,8 @@
 // const readFileAsync: any = Bluebird.promisify(require('fs').readFile)
 import Step from './step'
 import { Position, CompletionItem, CompletionItemKind } from 'vscode-languageserver'
+import { readFileSync } from 'fs'
+
 
 /**
  * We don't want comments that define a step to be read so
@@ -21,7 +23,18 @@ interface StepMatches {
 }
 
 export default class StepsHandler {
-  // steps: Step[] = []
+  // steps for a file with the filename as the key
+  stepsByFile: Map<string, Step[]>
+  steps: Step[]
+
+  constructor() {
+    this.stepsByFile = new Map()
+    this.steps = []
+  }
+  // TODO:
+  // make steps a map of filename to steps[]
+  // populate will go through each file and push steps to an array
+  // and then merge that map into one elements array which will be used for matching
 
   // async loadSteps(filePath: string) {
   //   const contents = await readFileAsync(filePath)
@@ -38,11 +51,8 @@ export default class StepsHandler {
    * 4 => arguments passed |blah, blah, blah|
    */
   findStep(line: string): StepMatches {
-    const stepRegex = new RegExp(
-      '^\\s*?step\\s+("([^"]+?)"|\'([^\']+?)\')\\s+do([\\s\\S]*)$',
-    )
-    let matches = line.match(stepRegex)
 
+    let matches = line.match(/^\s*step\s+("([^"]+?)"|\'([^\']+?)\')\s+do([\s\S]*)$/)
     if (!matches) {
       return null
     }
@@ -58,14 +68,15 @@ export default class StepsHandler {
    * Takes in the contents of a steps file, turns them into Steps
    * @param contents Steps file contents
    * @returns Step[]
+   * Notes: test the hell out of this function
    */
-
   parseSteps(contents: string): Step[] {
     let contentLines = contents.split(/\r?\n/g)
     contentLines = clearLineComments(contentLines)
-    return contentLines
+    let lines = contentLines
       .map((line, index) => {
         let lineNumber = index + 1
+
         let stepMatch = this.findStep(line)
         if (!stepMatch) {
           return null
@@ -73,6 +84,20 @@ export default class StepsHandler {
         return new Step(stepMatch.pure, lineNumber)
       })
       .filter(Boolean)
+    return lines
+  }
+
+  populate(filename: string): void {
+    const steps = this.parseSteps(readFileSync(filename, 'utf8'))
+    this.stepsByFile.set(filename, steps)
+    this.rebuildSteps()
+  }
+
+  rebuildSteps() {
+    this.steps = Array.from(this.stepsByFile).reduce(
+      (merged, steps) => merged.concat(steps[1]),
+      []
+    )
   }
 
   /**
