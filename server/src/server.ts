@@ -130,7 +130,7 @@ let documentSettings: Map<string, Thenable<ExampleSettings>> = new Map()
 // 		documentSettings.clear()
 // 	} else {
 // 		globalSettings = <ExampleSettings>(
-// 			(change.settings.languageServerExample || defaultSettings)
+// 			(change.settings.turnipLove || defaultSettings)
 // 		)
 // 	}
 
@@ -146,7 +146,7 @@ let documentSettings: Map<string, Thenable<ExampleSettings>> = new Map()
 // 	if (!result) {
 // 		result = connection.workspace.getConfiguration({
 // 			scopeUri: resource,
-// 			section: 'languageServerExample'
+// 			section: 'turnipLove'
 // 		})
 // 		documentSettings.set(resource, result)
 // 	}

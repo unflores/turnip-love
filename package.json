@@ -1,6 +1,6 @@
 {
-	"name": "lsp-sample",
-	"description": "A language server example",
+	"name": "turnip-love",
+	"description": "A syntax and code completion extionsion for turnip",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
 	"version": "1.0.0",
@@ -21,17 +21,28 @@
 	],
 	"main": "./client/out/extension",
 	"contributes": {
+		"languages": [{
+				"id": "turnip",
+				"aliases": ["turnip", "turnip"],
+				"extensions": [".feature"],
+				"configuration": "./client/language-configuration.json"
+		}],
+		"grammars": [{
+				"language": "turnip",
+				"scopeName": "source.turnip",
+				"path": "./client/syntaxes/turnip.tmLanguage.json"
+		}],
 		"configuration": {
 			"type": "object",
 			"title": "Example configuration",
 			"properties": {
-				"languageServerExample.maxNumberOfProblems": {
+				"turnipLove.maxNumberOfProblems": {
 					"scope": "resource",
 					"type": "number",
 					"default": 100,
 					"description": "Controls the maximum number of problems produced by the server."
 				},
-				"languageServerExample.trace.server": {
+				"turnipLove.trace.server": {
 					"scope": "window",
 					"type": "string",
 					"enum": [
