@@ -20,7 +20,7 @@
     "vscode-languageclient": "^4.1.4",
     "diff": ">=3.5.0",
     "fstream": ">=1.0.12",
-    "tar": ">=2.2.2",
+    "tar": ">=5.0.7",
     "js-yaml": ">=3.13.1"
   },
   "devDependencies": {
